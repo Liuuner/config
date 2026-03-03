@@ -1,5 +1,13 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
 
 # Download Zinit, if it's not there yet
 if [ ! -d "$ZINIT_HOME" ]; then
@@ -11,7 +19,13 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in OhMyPosh
-eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
+#eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
+
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
@@ -23,9 +37,6 @@ zinit light Aloxaf/fzf-tab
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::archlinux
-zinit snippet OMZP::aws
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
 
 # Load completions
@@ -66,16 +77,26 @@ alias la='ls -A --color'
 # alias vim='nvim'
 alias c='clear'
 alias cat='bat --style header --style snip --style changes --style header'
-alias firefox='firefox-developer-edition'
+alias tf="terraform"
+alias dotenv="set -a && source .env && set +a"
+alias claer="clear"
+alias clare="clear"
+alias gh-create="gh repo create --private --source=. --remote=origin &&
+  git push -u --all &&
+  gh browse"
+
+alias ytdl="yt-dlp"
+alias idea="~/.local/share/JetBrains/Toolbox/scripts/idea"
 
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+eval "$(direnv hook zsh)"
 # eval "$(zoxide init zsh)"
 
 # PATH
-export PATH="$PATH:/home/liun/go/bin/"
+export PATH="$PATH:/home/liun/go/bin/:/home/liun/.cargo/bin/"
 
 # COWSAY x FORTUNE
-echo -e "\e[90m$(fortune -a | cowsay)\e[0m"
+#echo -e "\e[90m$(fortune -a | cowsay)\e[0m"
 

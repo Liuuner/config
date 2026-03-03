@@ -1,0 +1,7 @@
+{
+  "zsh/zshrc": "~/.zshrc",
+  "zsh/zprofile": "~/.zprofile",
+  "global.gitignore": "~/.global.gitignore",
+  "ohmyposh": "~/.config/ohmyposh",
+  "bin": "~/bin"
+}
