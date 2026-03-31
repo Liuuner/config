@@ -14,9 +14,9 @@ FAIL_SOUND="/usr/share/sounds/freedesktop/stereo/dialog-error.oga"
 
 if command -v notify-send >/dev/null 2>&1; then
     if [ $status -eq 0 ]; then
-        notify-send "✅ Command finished in ${duration}s" "$*"
+        notify-send -u normal -t 0 "✅ Command finished in ${duration}s" "$*"
     else
-        notify-send "❌ Command failed (exit $status) after ${duration}s" "$*"
+        notify-send -u critical -t 0 "❌ Command failed (exit $status) after ${duration}s" "$*"
     fi
 fi
 
@@ -30,5 +30,8 @@ else
     echo -e "\a"
 fi
 
+if command -v gotify >/dev/null 2>&1; then
+    gotify push -p 9 -t "Cmd finished with status $status in ${duration}s" "$*"
+fi
 
 exit $status

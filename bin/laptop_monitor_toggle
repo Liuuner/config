@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+MONITOR="eDP-1"
+RESOLUTION="1920x1080@60"
+POSITION="auto"
+SCALE="1"
+
+# Check if monitor is currently enabled
+if hyprctl monitors | grep -q "^Monitor $MONITOR"; then
+  # Count total number of enabled monitors
+  ENABLED_MONITORS=$(hyprctl monitors -j | jq '. | length')
+
+  if [ "$ENABLED_MONITORS" -le 1 ]; then
+    # Only one monitor is active - don't disable it
+    notify-send "Cannot disable $MONITOR" "It's the only active monitor"
+    exit 1
+  fi
+
+  # Monitor is active and there are others → safe to disable it
+  hyprctl keyword monitor "$MONITOR,disable"
+  notify-send "Monitor $MONITOR disabled"
+else
+  # Monitor is disabled → enable it (adjust resolution if needed)
+  hyprctl keyword monitor "$MONITOR,$RESOLUTION,$POSITION,$SCALE"
+  notify-send "Monitor $MONITOR enabled"
+fi

@@ -1,3 +1,7 @@
+
+export PATH="$PATH:/home/liun/go/bin/:/home/liun/.cargo/bin/:/home/liun/bin/"
+
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -41,6 +45,8 @@ zinit snippet OMZP::command-not-found
 
 # Load completions
 autoload -Uz compinit && compinit
+
+compdef '_command -s' fin
 
 zinit cdreplay -q
 
@@ -95,7 +101,6 @@ eval "$(direnv hook zsh)"
 # eval "$(zoxide init zsh)"
 
 # PATH
-export PATH="$PATH:/home/liun/go/bin/:/home/liun/.cargo/bin/"
 
 # COWSAY x FORTUNE
 #echo -e "\e[90m$(fortune -a | cowsay)\e[0m"
